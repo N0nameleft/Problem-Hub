@@ -1,7 +1,7 @@
 ## How to start
-1. Clone this repo to your desired destination:
+1. Make sure your terminal is opened into this directory:
 ```
-$ git clone https://github.com/N0nameleft/Problem-Hub.git
+$ cd server/
 ```
 
 2. Create a python venv as 'venv':
