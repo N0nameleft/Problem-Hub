@@ -1,9 +1,8 @@
 function HomePage() {
-	const name = 'John Doe'
 	return (
-		<>
-			<h1>Hello {{ name }}</h1>
-		</>
+		<div>
+			<h1 className="font-monoton text-6xl">ProblemHub</h1>
+		</div>
 	)
 }
 
