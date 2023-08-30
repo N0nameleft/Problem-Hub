@@ -1,15 +1,25 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    extend: {
-    },
-  },
-  plugins: [],
+	content: [
+		'./src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/components/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/app/**/*.{js,ts,jsx,tsx,mdx}',
+	],
+	theme: {
+		extend: {
+			fontFamily: {
+				monoton: ['Monoton', 'cursive'],
+				manjari: ['Manjari', 'sans-serif'],
+			},
+			colors: {
+				phLinen: '#FFEDDF',
+				phDarkgrey: '#4E4B4B',
+				phGreen: '#739E82',
+				// Add more colors as needed
+			},
+		},
+	},
+	plugins: [],
 }
 export default config
