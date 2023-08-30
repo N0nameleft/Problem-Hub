@@ -12,6 +12,12 @@ const config: Config = {
 				monoton: ['Monoton', 'cursive'],
 				manjari: ['Manjari', 'sans-serif'],
 			},
+			colors: {
+				phLinen: '#FFEDDF',
+				phDarkgrey: '#4E4B4B',
+				phGreen: '#739E82',
+				// Add more colors as needed
+			},
 		},
 	},
 	plugins: [],
