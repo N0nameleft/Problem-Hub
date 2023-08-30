@@ -7,11 +7,12 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"lint:fix": "eslint src --fix && npm run format",
+		"lint:fix": "eslint  --fix && npm run format",
 		"format": "prettier -w .",
 		"format:check": "prettier -c ."
 	},
 	"dependencies": {
+		"@headlessui/react": "^1.7.17",
 		"@types/node": "20.4.10",
 		"@types/react": "18.2.20",
 		"@types/react-dom": "18.2.7",
