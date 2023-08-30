@@ -64,7 +64,7 @@ function Navbar() {
 							<li key={link.href}>
 								<a
 									href={link.href}
-									className="block rounded bg-phDarkgrey py-2 pl-3 pr-4 text-white md:p-0 hover:text-black"
+									className="block rounded bg-phDarkgrey py-2 pl-3 pr-4 text-white hover:text-black md:p-0"
 								>
 									{link.label}
 								</a>
