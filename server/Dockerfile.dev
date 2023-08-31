@@ -2,7 +2,7 @@
 FROM python:3.9
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /
 
 # Copy requirements.txt
 COPY requirements.txt .
@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 EXPOSE 8000
 
 # Define a command to run the app using Django's development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]

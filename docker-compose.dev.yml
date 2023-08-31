@@ -7,7 +7,6 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /dev/sda3:/var/lib/docker
       - ./client:/app
       - /app/node_modules
     environment:
@@ -22,7 +21,6 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - /dev/sda3:/var/lib/docker
       - ./server:/app
     environment:
       - DEBUG=True

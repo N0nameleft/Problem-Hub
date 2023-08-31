@@ -6,8 +6,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    volumes:
-      - /dev/sda3:/var/lib/docker
     depends_on:
       - backend
 
@@ -17,5 +15,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    volumes:
-      - /dev/sda3:/var/lib/docker
