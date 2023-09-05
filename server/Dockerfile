@@ -2,7 +2,7 @@
 FROM python:3.9
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /server
 
 # Copy requirements.txt
 COPY requirements.txt .
@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copy the rest of the application code
-COPY . .
+COPY ./ ./
 
 # Expose the port the app runs on (default is 8000)
 EXPOSE 8000

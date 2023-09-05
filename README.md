@@ -24,7 +24,7 @@ $ git clone https://github.com/N0nameleft/Problem-Hub.git
 - Make sure you have docker engine and docker-compose installed. There are instructions available in [docs/docker-installation.md](docs/docker-installation.md).
 - Run the command:
 
-    ```sudo docker-compose -f docker-compose.dev.yml up --build```
+    ```sudo docker-compose up```
 
     This should spin up the Next.js server as well as the Django server.
 
