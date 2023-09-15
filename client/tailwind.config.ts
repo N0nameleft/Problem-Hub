@@ -15,6 +15,7 @@ const config: Config = {
 			colors: {
 				phLinen: '#FFEDDF',
 				phDarkgrey: '#4E4B4B',
+				phDarkergrey: '#332F2F',
 				phGreen: '#739E82',
 				// Add more colors as needed
 			},
