@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from server.serializers import FactSerializer
-from server.serializers import UserSerializer
+from server.server.serializers import FactSerializer, UserSerializer
 from .models import User, Fact
 
 # Create your views here.
