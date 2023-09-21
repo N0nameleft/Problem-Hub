@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Fact
+from .models import Problem
 from .models import User
 
 class ServerAdmin(admin.ModelAdmin):
@@ -7,7 +7,7 @@ class ServerAdmin(admin.ModelAdmin):
 
 # Register your models here.
 
-admin.site.register(Fact, ServerAdmin)
+admin.site.register(Problem, ServerAdmin)
 
 class ServerAdmin(admin.ModelAdmin):
     list_display = ('user_id', 'name')

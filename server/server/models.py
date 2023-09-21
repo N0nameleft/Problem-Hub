@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-class Fact(models.Model):
+class Problem(models.Model):
     problem_id = models.AutoField(primary_key=True)
     problem_name = models.CharField(max_length=200)
     problem_data = models.CharField(max_length=10000)

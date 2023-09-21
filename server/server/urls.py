@@ -2,13 +2,13 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from problems import views as problem_views
-from .views import UserView, FactView
+from .views import UserView, ProblemView
 
 router = routers.DefaultRouter()
 router.register(r'users', problem_views.UserViewSet)
 router.register(r'groups', problem_views.GroupViewSet)
 router.register(r'User', UserView, basename = 'User')
-router.register(r'Fact', FactView, basename = 'Fact')
+router.register(r'Problem', ProblemView, basename = 'Problem')
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # Adding the admin site URLs
