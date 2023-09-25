@@ -1,10 +1,10 @@
-import React, { useState }from 'react'
+import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 
 const Upload = () => {
-    const [selectedFile, setSelectedFile] = useState('');
-    const [selectedOption, setSelectedOption] = useState('single');
-    const [showProblemFormat, setShowProblemFormat] = useState(false);
+	const [selectedFile, setSelectedFile] = useState('')
+	const [selectedOption, setSelectedOption] = useState('single')
+	const [showProblemFormat, setShowProblemFormat] = useState(false)
 
 	const handleFileChange = (e) => {
 		const selectedFile = e.target.files[0]
@@ -12,17 +12,17 @@ const Upload = () => {
 		if (selectedFile) {
 			// You can access the selected file using `selectedFile`.
 			// You can perform further actions with the file here.
-			setSelectedFile(`Selected File: ${selectedFile.name}`);
+			setSelectedFile(`Selected File: ${selectedFile.name}`)
 		}
 	}
 
-    const handleOptionChange = (e) => {
-        setSelectedOption(e.target.value);
-    }
+	const handleOptionChange = (e) => {
+		setSelectedOption(e.target.value)
+	}
 
-    const toggleProblemFormat = () => {
-        setShowProblemFormat(!showProblemFormat);
-    }
+	const toggleProblemFormat = () => {
+		setShowProblemFormat(!showProblemFormat)
+	}
 
 	return (
 		<>
@@ -74,7 +74,7 @@ const Upload = () => {
 							Note: Please follow the problem-tools format for structuring the
 							problems (must be directly inside a zip file).{' '}
 							<button
-								className="ml-2 cursor-pointer text-phLinen hover:text-phGreen underline"
+								className="ml-2 cursor-pointer text-phLinen underline hover:text-phGreen"
 								onClick={toggleProblemFormat}
 							>
 								Click here to see the correct Problem Tools Format!
@@ -84,7 +84,9 @@ const Upload = () => {
 							<div className="mt-4">
 								<p>Here is the correct Problem Tools Format:</p>
 								{/* Add your detailed format explanation here */}
-								<p className='italic'>This is where we explain the format in detail.</p>
+								<p className="italic">
+									This is where we explain the format in detail.
+								</p>
 							</div>
 						)}
 					</div>

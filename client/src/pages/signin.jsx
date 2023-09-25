@@ -1,62 +1,62 @@
-import React from 'react';
-import Navbar from '../components/Navbar';
+import React from 'react'
+import Navbar from '../components/Navbar'
 
 const Login = () => {
-  return (
-    <div>
-      <Navbar />
-      <div className="flex bg-phDarkgrey justify-center items-center min-h-screen">
-        <div className="w-full max-w-md">
-          <div className="bg-phGreen font-manjari text-phLinen text-center text-2xl py-4  border-b-2 border-black rounded-t-lg">
-            LOGIN
-          </div>
-          <div className="bg-phDarkergrey text-white p-4 rounded-b-lg">
-            <form action="your-login-action.php" method="POST">
-              <div className="mb-4">
-                <input
-                  className="bg-phDarkgrey rounded-lg w-full py-2 px-3 text-white text-center"
-                  type="text"
-                  id="username"
-                  name="username"
-                  placeholder="Username"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <input
-                  className="bg-phDarkgrey rounded-lg w-full py-2 px-3 text-white text-center"
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="Password"
-                  required
-                />
-              </div>
-              <div className="mb-4 flex items-center justify-center">
-                <input
-                  type="checkbox"
-                  id="remember"
-                  name="remember"
-                  className="mr-2"
-                />
-                <label className="text-phLinen" htmlFor="remember">
-                  Remember me
-                </label>
-              </div>
-              <div className="mb-4 flex items-center justify-center">
-                <button
-                  className="bg-phDarkgrey text-phLinen py-2 px-4 rounded-lg hover:bg-gray-600 cursor-pointer"
-                  type="submit"
-                >
-                  Login
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+	return (
+		<div>
+			<Navbar />
+			<div className="flex min-h-screen items-center justify-center bg-phDarkgrey">
+				<div className="w-full max-w-md">
+					<div className="rounded-t-lg border-b-2 border-black bg-phGreen py-4 text-center  font-manjari text-2xl text-phLinen">
+						LOGIN
+					</div>
+					<div className="rounded-b-lg bg-phDarkergrey p-4 text-white">
+						<form action="your-login-action.php" method="POST">
+							<div className="mb-4">
+								<input
+									className="w-full rounded-lg bg-phDarkgrey px-3 py-2 text-center text-white"
+									type="text"
+									id="username"
+									name="username"
+									placeholder="Username"
+									required
+								/>
+							</div>
+							<div className="mb-4">
+								<input
+									className="w-full rounded-lg bg-phDarkgrey px-3 py-2 text-center text-white"
+									type="password"
+									id="password"
+									name="password"
+									placeholder="Password"
+									required
+								/>
+							</div>
+							<div className="mb-4 flex items-center justify-center">
+								<input
+									type="checkbox"
+									id="remember"
+									name="remember"
+									className="mr-2"
+								/>
+								<label className="text-phLinen" htmlFor="remember">
+									Remember me
+								</label>
+							</div>
+							<div className="mb-4 flex items-center justify-center">
+								<button
+									className="cursor-pointer rounded-lg bg-phDarkgrey px-4 py-2 text-phLinen hover:bg-gray-600"
+									type="submit"
+								>
+									Login
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	)
+}
 
-export default Login;
+export default Login
