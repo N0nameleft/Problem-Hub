@@ -1,15 +1,14 @@
 import Navbar from '@/components/Navbar'
-import problems from '../MockData/mockProblems'
 import { useState } from 'react'
+import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 
-function HomePage() {
+function HomePage({ problems }) {
 	const [viewingProblem, setViewingProblem] = useState(null)
 
 	const handleProblemClick = (problem) => {
 		setViewingProblem(problem)
 	}
-	const myexampleLatex = '$$\\frac{1}{2}$$'
 	return (
 		<>
 			<Navbar />
@@ -27,7 +26,9 @@ function HomePage() {
 								>
 									Back
 								</button>
-								<Latex>{viewingProblem?.Problem_Latex}</Latex>
+								<div className="prose lg:prose-xl">
+									<Latex>{viewingProblem.Problem_Latex}</Latex>
+								</div>
 							</div>
 						) : (
 							<table className=" ml-auto mr-auto mt-2 w-11/12 border-separate border-spacing-y-2 px-4 text-center font-manjari text-lg text-white ">
@@ -74,5 +75,16 @@ function HomePage() {
 			</div>
 		</>
 	)
+}
+
+export async function getServerSideProps() {
+	// Fetch the JSON data from the server
+	const res = await fetch('http://localhost:3000/api/mockproblems') // Replace with the actual URL of your API route
+	const problems = await res.json()
+	return {
+		props: {
+			problems,
+		},
+	}
 }
 export default HomePage
