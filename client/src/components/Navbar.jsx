@@ -5,7 +5,7 @@ import { Menu } from '@headlessui/react'
 const links = [
 	{ href: '/', label: 'Find Problems' },
 	{ href: '/upload', label: 'Upload Problems' },
-	{ href: '/signin', label: 'Signin' },
+	{ href: '/signin', label: 'Signin' }
 ]
 
 function Navbar() {
