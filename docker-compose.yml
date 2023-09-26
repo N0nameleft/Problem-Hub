@@ -24,3 +24,20 @@ services:
       - ./server:/app
     environment:
       - DEBUG=True
+
+  migrations:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    command: python manage.py migrate
+    depends_on:
+      - backend
+    restart: "no"
+
+  cmd:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    command: /bin/bash
+    stdin_open: true
+    tty: true
