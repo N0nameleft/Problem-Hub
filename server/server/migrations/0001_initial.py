@@ -9,21 +9,48 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-    ]
+    # dependencies = [
+    #     migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    # ]
+    dependencies = []
 
+    # operations = [
+    #     migrations.CreateModel(
+    #         name='User',
+    #         fields=[
+    #             ('user_id', models.AutoField(primary_key=True, serialize=False)),
+    #             ('name', models.CharField(max_length=40)),
+    #             ('username', models.CharField(max_length=40, unique=True)),
+    #             ('email', models.CharField(max_length=40, unique=True)),
+    #             ('password', models.CharField(max_length=40)),
+    #         ],
+    #     ),
+    #     migrations.CreateModel(
+    #         name='Fact',
+    #         fields=[
+    #             ('problem_id', models.AutoField(primary_key=True, serialize=False)),
+    #             ('problem_name', models.CharField(max_length=200)),
+    #             ('problem_data', models.CharField(max_length=10000)),
+    #             ('date_added', models.DateField()),
+    #             ('link_to_file', models.CharField(max_length=200)),
+    #             ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+    #         ],
+    #     ),
+    # ]
     operations = [
+        # Updated User model:
         migrations.CreateModel(
             name='User',
             fields=[
-                ('user_id', models.AutoField(primary_key=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('name', models.CharField(max_length=40)),
                 ('username', models.CharField(max_length=40, unique=True)),
-                ('email', models.CharField(max_length=40, unique=True)),
-                ('password', models.CharField(max_length=40)),
+                ('email', models.EmailField(max_length=40, unique=True)), #changed to emailfield
+                ('password', models.CharField(max_length=128)),  #increased max length for hashed passwords.
             ],
         ),
+
+        # Fact model:
         migrations.CreateModel(
             name='Fact',
             fields=[
@@ -31,8 +58,8 @@ class Migration(migrations.Migration):
                 ('problem_name', models.CharField(max_length=200)),
                 ('problem_data', models.CharField(max_length=10000)),
                 ('date_added', models.DateField()),
-                ('link_to_file', models.CharField(max_length=200)),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('path_to_file', models.CharField(max_length=200)), 
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),  # Changed field name to 'user'.
             ],
         ),
     ]
