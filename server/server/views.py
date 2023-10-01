@@ -6,6 +6,7 @@ from .models import User, Problem
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
 
@@ -24,3 +25,4 @@ class ProblemsAPIView(APIView):
         problems = Problem.objects.select_related('user').all()  # Optimize by fetching related user in the same query
         serializer = ProblemSerializer(problems, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
