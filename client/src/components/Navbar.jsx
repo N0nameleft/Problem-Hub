@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { Fragment, useEffect, useState } from 'react'
-import { Menu } from '@headlessui/react'
+import { Menu, Transition } from '@headlessui/react'
 import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 
 const links = [
 	{ href: '/', label: 'Find Problems' },
@@ -10,17 +11,24 @@ const links = [
 
 function Navbar() {
 	const [accessToken, setAccessToken] = useState(null)
+	const [username, setUsername] = useState(null)
+	const router = useRouter()
 	useEffect(() => {
 		const storedAccessToken = Cookies.get('accessToken')
 		if (storedAccessToken) {
 			setAccessToken(storedAccessToken)
+			setUsername(Cookies.get('username'))
 		}
 	}, [])
 
-	useEffect(() => {
-		// This effect depends on accessToken
-		console.log(accessToken) // This will log the updated value when accessToken changes
-	}, [accessToken])
+	const handleSignout = () => {
+		Cookies.remove('accessToken')
+		Cookies.remove('username')
+		setAccessToken(null)
+		if (router.pathname === '/upload') {
+			router.push('/signin?alertCompulsory=true')
+		}
+	}
 
 	return (
 		// a tailwind navbar
@@ -71,8 +79,8 @@ function Navbar() {
 						{accessToken ? (
 							<Menu.Item>
 								{({ active }) => (
-									<Link
-										href="/signout"
+									<button
+										onClick={handleSignout}
 										className={`${
 											active
 												? 'bg-phDarkgrey text-phLinen'
@@ -80,7 +88,7 @@ function Navbar() {
 										}`}
 									>
 										Signout
-									</Link>
+									</button>
 								)}
 							</Menu.Item>
 						) : (
@@ -114,14 +122,43 @@ function Navbar() {
 							</li>
 						))}
 						{accessToken ? (
-							<li>
-								<Link
-									href="/signout"
-									className="block rounded bg-phDarkgrey py-2 pl-3 pr-4 text-white hover:text-black md:p-0"
+							// <li>
+							// 	<button
+							// 		onClick={handleSignout}
+							// 		className="block rounded bg-phDarkgrey py-2 pl-3 pr-4 text-white hover:text-black md:p-0"
+							// 	>
+							// 		Signout
+							// 	</button>
+							// </li>
+							<Menu as="div" className="relative">
+								<Menu.Button className="text-white">
+									Hi, {username}
+									<span className=" ml-2 text-phLinen"> &#9662;</span>
+								</Menu.Button>
+								<Transition
+									enter="transition duration-100 ease-out"
+									enterFrom="transform scale-95 opacity-0"
+									enterTo="transform scale-100 opacity-100"
+									leave="transition duration-75 ease-out"
+									leaveFrom="transform scale-100 opacity-100"
+									leaveTo="transform scale-95 opacity-0"
 								>
-									Signout
-								</Link>
-							</li>
+									<Menu.Items>
+										<Menu.Item className="absolute right-0 top-1 rounded-md border-4 border-phDarkergrey bg-phDarkgrey px-2 py-1">
+											{({ active }) => (
+												<button
+													className={`${
+														active ? ' text-phGreen' : 'text-white'
+													}`}
+													onClick={handleSignout}
+												>
+													signout
+												</button>
+											)}
+										</Menu.Item>
+									</Menu.Items>
+								</Transition>
+							</Menu>
 						) : (
 							<li>
 								<Link

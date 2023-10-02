@@ -9,6 +9,9 @@ const Login = () => {
 	const [password, setPassword] = useState('')
 	const [errorMessage, setErrorMessage] = useState('')
 	const router = useRouter()
+	const { alertCompulsory } = router.query
+	if (Cookies.get('accessToken')) router.push('/')
+
 	const handleSignIn = async (e) => {
 		e.preventDefault()
 		if (!username || !password) return
@@ -21,21 +24,19 @@ const Login = () => {
 					password: password,
 				},
 			)
-			console.log(response.data)
 			const { access, refresh } = response.data
-			Cookies.set('accessToken', access)
-			router.push('/')
+			const maxAge = 60 * 60 * 24 * 7 // 1 week
+			Cookies.set('accessToken', access, { expires: maxAge })
+			Cookies.set('username', username, { expires: maxAge })
+			if (alertCompulsory === 'true') router.push('/upload')
+			else router.push('/')
 		} catch (error) {
 			console.error('Login failed: ', error)
 			if (error.response) {
 				if (error.response.status === 401)
 					setErrorMessage('Invalid username or password.')
-				else {
-					setErrorMessage(error.response.data.detail)
-				}
-			} else {
-				setErrorMessage('An error occured.')
-			}
+				else setErrorMessage(error.response.data.detail)
+			} else setErrorMessage('An error occured.')
 		}
 	}
 
@@ -93,6 +94,11 @@ const Login = () => {
 								</button>
 							</div>
 							<p className="text-center text-red-600">{errorMessage}</p>
+							{alertCompulsory === 'true' && (
+								<p className="text-center text-red-600">
+									You must be signed in to access that page!
+								</p>
+							)}
 						</form>
 					</div>
 				</div>
