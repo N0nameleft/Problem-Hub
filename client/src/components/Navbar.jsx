@@ -1,14 +1,27 @@
 import Link from 'next/link'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Menu } from '@headlessui/react'
+import Cookies from 'js-cookie'
 
 const links = [
 	{ href: '/', label: 'Find Problems' },
 	{ href: '/upload', label: 'Upload Problems' },
-	{ href: '/signin', label: 'Signin' },
 ]
 
 function Navbar() {
+	const [accessToken, setAccessToken] = useState(null)
+	useEffect(() => {
+		const storedAccessToken = Cookies.get('accessToken')
+		if (storedAccessToken) {
+			setAccessToken(storedAccessToken)
+		}
+	}, [])
+
+	useEffect(() => {
+		// This effect depends on accessToken
+		console.log(accessToken) // This will log the updated value when accessToken changes
+	}, [accessToken])
+
 	return (
 		// a tailwind navbar
 		<nav className="fixed z-10 w-full border-gray-200 bg-phDarkgrey font-manjari text-lg">
@@ -42,7 +55,7 @@ function Navbar() {
 							/* Use the `active` state to conditionally style the active item. */
 							<Menu.Item key={link.href} as={Fragment}>
 								{({ active }) => (
-									<a
+									<Link
 										href={link.href}
 										className={`${
 											active
@@ -51,24 +64,74 @@ function Navbar() {
 										}`}
 									>
 										{link.label}
-									</a>
+									</Link>
 								)}
 							</Menu.Item>
 						))}
+						{accessToken ? (
+							<Menu.Item>
+								{({ active }) => (
+									<Link
+										href="/signout"
+										className={`${
+											active
+												? 'bg-phDarkgrey text-phLinen'
+												: 'bg-phDarkgrey text-white'
+										}`}
+									>
+										Signout
+									</Link>
+								)}
+							</Menu.Item>
+						) : (
+							<Menu.Item>
+								{({ active }) => (
+									<Link
+										href="/signin"
+										className={`${
+											active
+												? 'bg-phDarkgrey text-phLinen'
+												: 'bg-phDarkgrey text-white'
+										}`}
+									>
+										Signin
+									</Link>
+								)}
+							</Menu.Item>
+						)}
 					</Menu.Items>
 				</Menu>
 				<div className="hidden w-full lg:block lg:w-auto" id="navbar-default">
 					<ul className="mt-4 flex flex-col rounded-lg border border-gray-100 p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-phDarkgrey md:p-0">
 						{links.map((link) => (
 							<li key={link.href}>
-								<a
+								<Link
 									href={link.href}
 									className="block rounded bg-phDarkgrey py-2 pl-3 pr-4 text-white hover:text-black md:p-0"
 								>
 									{link.label}
-								</a>
+								</Link>
 							</li>
 						))}
+						{accessToken ? (
+							<li>
+								<Link
+									href="/signout"
+									className="block rounded bg-phDarkgrey py-2 pl-3 pr-4 text-white hover:text-black md:p-0"
+								>
+									Signout
+								</Link>
+							</li>
+						) : (
+							<li>
+								<Link
+									href="/signin"
+									className="block rounded bg-phDarkgrey py-2 pl-3 pr-4 text-white hover:text-black md:p-0"
+								>
+									Signin
+								</Link>
+							</li>
+						)}
 					</ul>
 				</div>
 			</div>

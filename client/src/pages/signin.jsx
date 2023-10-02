@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import Navbar from '../components/Navbar'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -7,10 +8,10 @@ const Login = () => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [errorMessage, setErrorMessage] = useState('')
-
+	const router = useRouter()
 	const handleSignIn = async (e) => {
 		e.preventDefault()
-		console.log(`Sending request to ${process.env.BACKEND_API_URL}/api/token/`)
+		if (!username || !password) return
 		setErrorMessage('')
 		try {
 			const response = await axios.post(
@@ -23,10 +24,15 @@ const Login = () => {
 			console.log(response.data)
 			const { access, refresh } = response.data
 			Cookies.set('accessToken', access)
+			router.push('/')
 		} catch (error) {
 			console.error('Login failed: ', error)
 			if (error.response) {
-				setErrorMessage(error.response.data.detail)
+				if (error.response.status === 401)
+					setErrorMessage('Invalid username or password.')
+				else {
+					setErrorMessage(error.response.data.detail)
+				}
 			} else {
 				setErrorMessage('An error occured.')
 			}
