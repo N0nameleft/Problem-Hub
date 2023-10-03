@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 
 const Upload = () => {
 	const [selectedFile, setSelectedFile] = useState('')
 	const [selectedOption, setSelectedOption] = useState('single')
 	const [showProblemFormat, setShowProblemFormat] = useState(false)
+	const router = useRouter()
+	if (!Cookies.get('accessToken')) router.push('/signin?alertCompulsory=true')
 
 	const handleFileChange = (e) => {
 		const selectedFile = e.target.files[0]
