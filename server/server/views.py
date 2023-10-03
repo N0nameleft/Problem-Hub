@@ -24,3 +24,13 @@ class ProblemsAPIView(APIView):
         problems = Problem.objects.select_related('user').all()  # Optimize by fetching related user in the same query
         serializer = ProblemSerializer(problems, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class ProblemsByIdsAPIView(APIView):
+    def get(self, request, ids, *args, **kwargs):
+        # Split the passed IDs using "+" as a delimiter
+        ids_list = ids.split("+")
+        problems = Problem.objects.filter(problem_id__in=ids_list).select_related('user')
+        
+        # Serializing the fetched problems
+        serializer = ProblemSerializer(problems, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

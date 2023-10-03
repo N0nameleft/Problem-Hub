@@ -4,7 +4,7 @@ from rest_framework import routers
 # from problems import views as problem_views
 from .views import UserView, ProblemView
 from rest_framework_simplejwt import views as jwt_views
-from .views import ProblemsAPIView
+from .views import ProblemsAPIView, ProblemsByIdsAPIView
 
 router = routers.DefaultRouter()
 # router.register(r'users', problem_views.UserViewSet)
@@ -22,4 +22,9 @@ urlpatterns = [
     # path('signin/', include(router.urls)),
     # path('upload/', include(router.urls)),
     path('api/problems/', ProblemsAPIView.as_view(), name='problems-list'),
+    path('api/problems/<ids>/', ProblemsByIdsAPIView.as_view(), name='problems-list-by-ids'),
 ]
+
+
+
+
