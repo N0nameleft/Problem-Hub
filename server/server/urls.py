@@ -21,5 +21,5 @@ urlpatterns = [
     # path('upload/', include(router.urls)),
     path('api/problems/', ProblemsAPIView.as_view(), name='problems-list'),
     path('upload/', FileUploadView.as_view(), name='file-upload'),
-    path('api/download/', DownloadFilesView.as_view(), name='download_files'),
+    path('/download/', DownloadFilesView.as_view(), name='download_files'),
 ]
