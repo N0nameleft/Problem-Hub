@@ -12,7 +12,7 @@ const problemsData = [
 	},
 	{
 		id: 2,
-		Problem_Name: 'Fibonacci Sequence', 
+		Problem_Name: 'Fibonacci Sequence',
 		Uploaded_By: 'user2',
 		Date_Uploaded_On: '2023-08-03',
 		Problem_Data:
