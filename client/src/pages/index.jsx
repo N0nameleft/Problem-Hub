@@ -15,18 +15,11 @@ function HomePage({ problems }) {
 
 	// Function to handle checkbox change
 	const handleCheckboxChange = (problemId) => {
-		// check if problemId is in selectedProblems array
 		if (selectedProblems.includes(problemId)) {
-			// remove problemId from selectedProblems array
 			setSelectedProblems(selectedProblems.filter((id) => id !== problemId))
 		} else {
-			// add problemId to selectedProblems array
 			setSelectedProblems([...selectedProblems, problemId])
 		}
-
-		// implement logic with selectedProblems array here
-		// for now just console.log it
-		console.log(selectedProblems)
 	}
 
 	// Function to handle download
