@@ -2,14 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 # from problems import views as problem_views
-from .views import UserView, ProblemView
+from .views import ProblemView, FileUploadView, DownloadFilesView, ProblemsAPIView
 from rest_framework_simplejwt import views as jwt_views
-from .views import ProblemsAPIView
 
 router = routers.DefaultRouter()
 # router.register(r'users', problem_views.UserViewSet)
 # router.register(r'groups', problem_views.GroupViewSet)
-router.register(r'User', UserView, basename = 'User')
 router.register(r'Problem', ProblemView, basename = 'Problem')
 
 urlpatterns = [
@@ -22,4 +20,6 @@ urlpatterns = [
     # path('signin/', include(router.urls)),
     # path('upload/', include(router.urls)),
     path('api/problems/', ProblemsAPIView.as_view(), name='problems-list'),
+    path('upload/', FileUploadView.as_view(), name='file-upload'),
+    path('download/', DownloadFilesView.as_view(), name='download_files'),
 ]

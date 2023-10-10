@@ -97,13 +97,3 @@ def check_output_validators_structure(filenames):
             return False, "Upload failure, output_validators folder should have exactly one .cpp and one .h file. Please check."
 
     return True, ""
-
-zip_path = input("Enter the path to the data.zip: ")
-isValid, message = validate_zip_structure(zip_path)
-
-while not isValid:
-    print(message)
-    zip_path = input("Please input the path to the zip file again: ")
-    isValid, message = validate_zip_structure(zip_path)
-
-print("problem upload successfully!")
