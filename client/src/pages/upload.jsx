@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { use, useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
@@ -8,7 +8,12 @@ const Upload = () => {
 	const [selectedOption, setSelectedOption] = useState('single')
 	const [showProblemFormat, setShowProblemFormat] = useState(false)
 	const router = useRouter()
-	if (!Cookies.get('accessToken')) router.push('/signin?alertCompulsory=true')
+
+	useEffect(() => {
+		if (!Cookies.get('accessToken')) {
+			router.push('/signin?alertCompulsory=true');
+		}
+	}, [])
 
 	const handleFileChange = (e) => {
 		const selectedFile = e.target.files[0]
@@ -32,7 +37,7 @@ const Upload = () => {
 		<>
 			<Navbar />
 			<div className="flex min-h-screen items-center justify-center bg-phDarkgrey">
-				<div className="w-full max-w-md">
+				<div className="w-full max-w-md mt-16">
 					<div className="rounded-t-lg border-b-2 border-black bg-phGreen py-4 text-center  font-manjari text-2xl text-phLinen">
 						Upload a Contest Problem
 					</div>
@@ -78,26 +83,56 @@ const Upload = () => {
 							Note: Please follow the problem-tools format for structuring the
 							problems (must be directly inside a zip file).{' '}
 							<button
-								className="ml-2 cursor-pointer text-phLinen underline hover:text-phGreen"
+								className="ml-2 cursor-pointer italic text-phLinen underline hover:text-phGreen"
 								onClick={toggleProblemFormat}
 							>
 								Click here to see the correct Problem Tools Format!
 							</button>
 						</p>
-						{showProblemFormat && (
-							<div className="mt-4">
-								<p>Here is the correct Problem Tools Format:</p>
-								{/* Add your detailed format explanation here */}
-								<p className="italic">
-									This is where we explain the format in detail.
-								</p>
-							</div>
-						)}
 					</div>
+					{showProblemFormat && (
+						<div className="rounded-lg bg-phDarkgrey p-4">
+							<p className="mb-2 text-center font-bold text-phLinen">
+								Here is the correct Problem Tools Format:
+							</p>
+							<pre className="text-phLinen">
+								{`ZIP Root:
+|
+|-- problem.yaml   # Must exist at the root.
+|
+|-- data/          # Must exist.
+|   |
+|   |-- sample/           # Must exist.
+|   |   |-- .in &.ans  # Paired files with the same base name.
+|   |
+|   |-- secret/           # Must exist.
+|       |-- .in &.ans  # Paired files with the same base name.
+|
+|-- problem.pdf       # Either this,
+| OR
+|-- problem_statement/    # Or this folder must exist.
+|   |-- problem.en.tex    # Must exist if the folder exists.
+|
+|-- solutions/ OR submissions/     # At least one must exist.
+|   |
+|   |-- accepted/        # Must exist.
+|   |   |-- .cpp,.java, .py,.cc, .kt,.cs  # At least one file with these extensions.
+|   |
+|   |-- wrong_answer/    # Optional folder.
+|   |   |-- .cpp,.java, .py,.cc, .kt,.cs  # If the folder exists, at least one file with these extensions.
+|   |
+|   |-- time_limit_exceeded/  # Optional folder.
+|       |-- .cpp,.java, .py,.cc, .kt,.cs  # If the folder exists, at least one file with these extensions.
+|
+|-- output_validators/  # Optional folder.
+    |-- .cpp &.h     # If the folder exists, exactly one file with each extension.`}
+							</pre>
+						</div>
+					)}
 				</div>
 			</div>
 		</>
 	)
 }
 
-export default Upload
+export default Upload;
