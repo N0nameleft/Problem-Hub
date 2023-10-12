@@ -30,13 +30,13 @@ class FileUploadView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = {'user': request.user.id, 'file': request.data['file']} 
-        file_serializer = UploadedFileSerializer(data=data)
+        #file_serializer = UploadedFileSerializer(data=data)
 
-        if file_serializer.is_valid():
-            file_serializer.save()
-            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #if file_serializer.is_valid():
+            #file_serializer.save()
+            #return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        #else:
+            #return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def get(self, request, *args, **kwargs):
         problems = Problem.objects.select_related('user').all()
         serializer = ProblemSerializer(problems, many=True)
