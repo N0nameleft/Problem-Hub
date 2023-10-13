@@ -4,6 +4,7 @@ from rest_framework import routers
 # from problems import views as problem_views
 from .views import ProblemView, FileUploadView, DownloadFilesView, ProblemsAPIView
 from rest_framework_simplejwt import views as jwt_views
+from .views import MultiFileUploadView
 
 router = routers.DefaultRouter()
 # router.register(r'users', problem_views.UserViewSet)
@@ -22,4 +23,5 @@ urlpatterns = [
     path('api/problems/', ProblemsAPIView.as_view(), name='problems-list'),
     path('upload/', FileUploadView.as_view(), name='file-upload'),
     path('download/', DownloadFilesView.as_view(), name='download_files'),
+    path('multi-upload/', MultiFileUploadView.as_view(), name='multi-upload'),
 ]

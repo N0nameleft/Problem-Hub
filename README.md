@@ -29,3 +29,6 @@ $ git clone https://github.com/N0nameleft/Problem-Hub.git
     This should spin up the Next.js server as well as the Django server.
 
 - As of 05/09/23, I haven't written a script to perform migrations before running the django server. I'll do that later, else, someone else can feel free to do that! ;P
+
+## prerequisites 
+- node version 20
