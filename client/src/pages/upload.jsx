@@ -58,9 +58,10 @@ const Upload = () => {
 			console.error('Upload failed: ', error)
 			setIsUploading(false)
 			if (error.response) {
-				if (error.response.status === 401)
-					setErrorMessage('Invalid username or password.')
-				else setErrorMessage(error.response.data.detail)
+				if (error.response.status === 401) {
+					Cookies.remove('accessToken')
+					router.push('/signin?alertCompulsory=true')
+				} else setErrorMessage(error.response.data.detail)
 			} else setErrorMessage('An error occured.')
 		}
 	}
