@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar'
 import { useState } from 'react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
+import SearchBar from '../components/HomePage/searchbar'
 
 function HomePage({ problems }) {
 	const [viewingProblem, setViewingProblem] = useState(null)
@@ -15,6 +16,7 @@ function HomePage({ problems }) {
 			<div className="h-screen bg-phDarkgrey px-48 pt-24">
 				<div className="no-scrollbar absolute bottom-0 left-0 right-0 top-0 mx-48 mt-24 h-auto overflow-scroll">
 					<h2 className="text-white">Find contest problems</h2>
+					<SearchBar/> 
 					<div className=" mt-2 h-full overflow-hidden border-4 border-phDarkergrey bg-phGreen">
 						{/* A table with the rows "problem", "Uploaded by" and "Uploaded on" */}
 						{viewingProblem ? (
