@@ -3,6 +3,7 @@ import { useState } from 'react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 import { format } from 'date-fns'
+import Searchbar from '../components/HomePageComponents/Searchbar'
 
 function HomePage({ problems }) {
 	const [viewingProblem, setViewingProblem] = useState(null)
@@ -49,6 +50,7 @@ function HomePage({ problems }) {
 				<div className="no-scrollbar absolute bottom-0 left-0 right-0 top-0 mx-48 mt-24 h-auto overflow-scroll">
 					<div className="mb-2 flex items-center justify-between">
 						<h2 className="text-white">Find contest problems</h2>
+						<Searchbar />
 						{/* Download button */}
 						{selectedProblems.length > 0 && (
 							<button
