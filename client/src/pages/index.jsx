@@ -7,15 +7,45 @@ import { format } from 'date-fns'
 function HomePage({ problems }) {
 	const [viewingProblem, setViewingProblem] = useState(null)
 
+	// State for Selected Problems
+	const [selectedProblems, setSelectedProblems] = useState([]) // Array of problem IDs
+
 	const handleProblemClick = (problem) => {
 		setViewingProblem(problem)
 	}
+
+	// Function to handle checkbox change
+	const handleCheckboxChange = (problemId) => {
+		if (selectedProblems.includes(problemId)) {
+			setSelectedProblems(selectedProblems.filter((id) => id !== problemId))
+		} else {
+			setSelectedProblems([...selectedProblems, problemId])
+		}
+	}
+
+	// Function to handle download
+	const handleDownload = () => {
+		// Implement the download logic here
+		console.log('Downloading selected problems:', selectedProblems)
+	}
+
 	return (
 		<>
 			<Navbar />
 			<div className="h-screen bg-phDarkgrey px-48 pt-24">
 				<div className="no-scrollbar absolute bottom-0 left-0 right-0 top-0 mx-48 mt-24 h-auto overflow-scroll">
-					<h2 className="text-white">Find contest problems</h2>
+					<div className="mb-2 flex items-center justify-between">
+						<h2 className="text-white">Find contest problems</h2>
+						{/* Download button */}
+						{selectedProblems.length > 0 && (
+							<button
+								onClick={handleDownload}
+								className="rounded-lg bg-phDarkergrey px-4 py-2 text-white shadow-md hover:bg-gray-600"
+							>
+								Download Selected Problems
+							</button>
+						)}
+					</div>
 					<div className=" mt-2 min-h-full border-4 border-phDarkergrey bg-phGreen">
 						{/* A table with the rows "problem", "Uploaded by" and "Uploaded on" */}
 						{viewingProblem ? (
@@ -45,24 +75,37 @@ function HomePage({ problems }) {
 								<tbody>
 									{problems.map((problem) => (
 										<tr
-											key={problem.id}
+											key={problem.problem_id}
 											className="h-9 bg-phDarkgrey align-bottom hover:bg-phDarkergrey"
 										>
-											<td colSpan={2} className="pl-48 text-left">
-												<a
-													onClick={() =>
-														handleProblemClick({
-															id: problem.problem_id,
-															Problem_Name: problem.problem_name,
-															Uploaded_By: problem.uploaded_by,
-															Date_Uploaded_On: problem.date_added,
-															Problem_Latex: problem.problem_data,
-														})
+											<td className="pl-48 text-left">
+												<input
+													type="checkbox"
+													checked={selectedProblems.includes(
+														problem.problem_id,
+													)}
+													onChange={() =>
+														handleCheckboxChange(problem.problem_id)
 													}
-													href="#"
-												>
-													{problem.problem_name}
-												</a>
+												/>
+											</td>
+											<td className="text-left" style={{ maxWidth: '400px' }}>
+												<div className="truncate">
+													<a
+														onClick={() =>
+															handleProblemClick({
+																id: problem.problem_id,
+																Problem_Name: problem.problem_name,
+																Uploaded_By: problem.uploaded_by,
+																Date_Uploaded_On: problem.date_added,
+																Problem_Latex: problem.problem_data,
+															})
+														}
+														href="#"
+													>
+														{problem.problem_name}
+													</a>
+												</div>
 											</td>
 											<td>
 												{format(new Date(problem.date_added), 'dd-MM-yyyy')}
