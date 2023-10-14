@@ -14,5 +14,5 @@ urlpatterns = [
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/problems/', ProblemsAPIView.as_view(), name='problems-list'),
     path('upload/', FileUploadView.as_view(), name='file-upload'),
-    path('download/', DownloadFilesView.as_view(), name='download_files'),
+    path('api/download/', DownloadFilesView.as_view(), name='download_problems'),
 ]

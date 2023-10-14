@@ -27,6 +27,19 @@ function HomePage({ problems }) {
 	const handleDownload = () => {
 		// Implement the download logic here
 		console.log('Downloading selected problems:', selectedProblems)
+		let chosenProblems = problems.filter((problem) =>
+			selectedProblems.includes(problem.problem_id),
+		)
+		console.log('Chosen problems:', chosenProblems)
+
+		if (selectedProblems.length > 0) {
+			let downloadUrl = `${
+				process.env.BACKEND_API_URL
+			}/api/download?problem_ids=${selectedProblems.join()}`
+			window.location.href = downloadUrl
+		} else {
+			alert('Please select at least one problem to download.')
+		}
 	}
 
 	return (
