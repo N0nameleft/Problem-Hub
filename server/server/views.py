@@ -22,7 +22,7 @@ from .models import Problem
 class ProblemsAPIView(APIView):
     def get(self, request, *args, **kwargs):
         # Optimize by fetching related user in the same query
-        problems = Problem.objects.select_related('user').all()
+        problems = Problem.objects.select_related('user_id').all()
         serializer = ProblemRetrieveSerializer(problems, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -89,7 +89,7 @@ class FileUploadView(APIView):
                             zip_ref.close()
                             return Response({"error": f"Problem File Structure Error: File {filename} failed validation: problem.yaml not found"}, status=status.HTTP_400_BAD_REQUEST)
             main_zip.close()
-        return Response({"success": f"Uploaded {uploaded_problems.count} problems to ProblemHub!"}, status=status.HTTP_200_OK)
+        return Response({"success": f"Uploaded {len(uploaded_problems)} problems to ProblemHub!"}, status=status.HTTP_200_OK)
 
         # Unzipping the file and validing the structure of each zip file within the zip file
         # if file.name.endswith('.zip'):

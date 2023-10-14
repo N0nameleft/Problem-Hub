@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar'
 import { useState } from 'react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
+import { format } from 'date-fns'
 
 function HomePage({ problems }) {
 	const [viewingProblem, setViewingProblem] = useState(null)
@@ -15,10 +16,10 @@ function HomePage({ problems }) {
 			<div className="h-screen bg-phDarkgrey px-48 pt-24">
 				<div className="no-scrollbar absolute bottom-0 left-0 right-0 top-0 mx-48 mt-24 h-auto overflow-scroll">
 					<h2 className="text-white">Find contest problems</h2>
-					<div className=" mt-2 h-full overflow-hidden border-4 border-phDarkergrey bg-phGreen">
+					<div className=" mt-2 min-h-full border-4 border-phDarkergrey bg-phGreen">
 						{/* A table with the rows "problem", "Uploaded by" and "Uploaded on" */}
 						{viewingProblem ? (
-							<div className="ml-auto mr-auto mt-4 h-96 w-11/12 text-white">
+							<div className="ml-auto mr-auto mt-4 w-11/12 text-white">
 								<button
 									type="button"
 									onClick={() => setViewingProblem(null)}
@@ -51,20 +52,22 @@ function HomePage({ problems }) {
 												<a
 													onClick={() =>
 														handleProblemClick({
-															id: problem.id,
-															Problem_Name: problem.Problem_Name,
-															Uploaded_By: problem.Uploaded_By,
-															Date_Uploaded_On: problem.Date_Uploaded_On,
-															Problem_Latex: problem.Problem_Data,
+															id: problem.problem_id,
+															Problem_Name: problem.problem_name,
+															Uploaded_By: problem.uploaded_by,
+															Date_Uploaded_On: problem.date_added,
+															Problem_Latex: problem.problem_data,
 														})
 													}
 													href="#"
 												>
-													{problem.Problem_Name}
+													{problem.problem_name}
 												</a>
 											</td>
-											<td>{problem.Date_Uploaded_On}</td>
-											<td>{problem.Uploaded_By}</td>
+											<td>
+												{format(new Date(problem.date_added), 'dd-MM-yyyy')}
+											</td>
+											<td>{problem.uploaded_by}</td>
 										</tr>
 									))}
 								</tbody>
@@ -79,8 +82,13 @@ function HomePage({ problems }) {
 
 export async function getServerSideProps() {
 	// Fetch the JSON data from the server
-	const res = await fetch('http://localhost:3000/api/mockproblems') // Replace with the actual URL of your API route
-	const problems = await res.json()
+	// const res = await fetch('http://localhost:3000/api/mockproblems') // Replace with the actual URL of your API route
+
+	// axios logic
+	const axios = require('axios')
+	const res = await axios.get(`${process.env.BACKEND_API_URL}/api/problems`)
+
+	const problems = res.data
 	return {
 		props: {
 			problems,

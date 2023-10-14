@@ -12,7 +12,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api/', include(router.urls)),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('api/problems/', ProblemsAPIView.as_view(), name='problems-list'),
     path('upload/', FileUploadView.as_view(), name='file-upload'),
     path('download/', DownloadFilesView.as_view(), name='download_files'),
