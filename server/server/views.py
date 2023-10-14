@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files import File
 from django.http import HttpResponse
+from django.core.paginator import Paginator
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -21,8 +22,11 @@ from .models import Problem
 
 class ProblemsAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        # Optimize by fetching related user in the same query
+        page_number = request.GET.get('page')
+        items_per_page = 10
         problems = Problem.objects.select_related('user_id').all()
+        paginator = Paginator(problems, items_per_page)
+        page = paginator.get_page(page_number)
         serializer = ProblemRetrieveSerializer(problems, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
