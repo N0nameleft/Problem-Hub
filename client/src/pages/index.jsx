@@ -142,7 +142,9 @@ export async function getServerSideProps() {
 
 	// axios logic
 	const axios = require('axios')
-	const res = await axios.get(`${process.env.BACKEND_API_URL}/api/problems`)
+	const res = await axios.get(
+		`${process.env.BACKEND_SERVERSIDE_API_URL}/api/problems`,
+	)
 
 	const problems = res.data
 	return {

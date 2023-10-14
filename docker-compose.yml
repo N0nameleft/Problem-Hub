@@ -1,43 +1,30 @@
 version: '3'
 services:
   frontend:
+    container_name: problem-hub-frontend
     build:
       context: ./client
       dockerfile: Dockerfile.dev
+    restart: always
     ports:
       - "3000:3000"
     volumes:
-      - ./client:/app
-      - /app/node_modules
+      - ./client:/client
+      - /client/node_modules
+      - /client/.next
     environment:
       - NODE_ENV=development
     depends_on:
       - backend
 
   backend:
+    container_name: problem-hub-backend
     build:
       context: ./server
       dockerfile: Dockerfile.dev
     ports:
       - "8000:8000"
     volumes:
-      - ./server:/app
+      - ./server:/server
     environment:
       - DEBUG=True
-
-  migrations:
-    build:
-      context: ./server
-      dockerfile: Dockerfile.dev
-    command: python manage.py migrate
-    depends_on:
-      - backend
-    restart: "no"
-
-  cmd:
-    build:
-      context: ./server
-      dockerfile: Dockerfile.dev
-    command: /bin/bash
-    stdin_open: true
-    tty: true
