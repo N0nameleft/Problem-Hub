@@ -4,7 +4,7 @@ import zipfile
 def validate_zip_structure(zip_path):
     
     if not zipfile.is_zipfile(zip_path):
-        return False, "Upload failure, the uploaded file is not a valid zip file"
+        return False, f"Upload failure,{os.path.basename(zip_path)} is not a zip file"
 
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         filenames = zip_ref.namelist()

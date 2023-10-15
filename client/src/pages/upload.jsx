@@ -15,6 +15,7 @@ const Upload = () => {
 	const [selectedFile, setSelectedFile] = useState('')
 	const [showProblemFormat, setShowProblemFormat] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
+	const [successMessage, setSuccessMessage] = useState('')
 	const [isUploading, setIsUploading] = useState(false)
 	const router = useRouter()
 
@@ -24,8 +25,6 @@ const Upload = () => {
 
 	const handleFileChange = (e) => {
 		if (e.target.files[0]) {
-			// You can access the selected file using `selectedFile`.
-			// You can perform further actions with the file here.
 			setSelectedFile(e.target.files[0])
 		}
 	}
@@ -53,14 +52,18 @@ const Upload = () => {
 			)
 			setIsUploading(false)
 			setSelectedFile('')
+			if (response.data.success) {
+				setSuccessMessage(response.data.success)
+			}
 			console.log('File uploaded successfully:', response.data)
 		} catch (error) {
 			console.error('Upload failed: ', error)
 			setIsUploading(false)
 			if (error.response) {
-				if (error.response.status === 401)
-					setErrorMessage('Invalid username or password.')
-				else setErrorMessage(error.response.data.detail)
+				if (error.response.status === 401) {
+					Cookies.remove('accessToken')
+					router.push('/signin?alertCompulsory=true')
+				} else setErrorMessage(error.response.data.error)
 			} else setErrorMessage('An error occured.')
 		}
 	}
@@ -116,6 +119,7 @@ const Upload = () => {
 								)}
 
 								<p className="text-red-600">{errorMessage}</p>
+								<p className=" text-green-500">{successMessage}</p>
 							</>
 						)}
 
