@@ -29,3 +29,10 @@ $ git clone https://github.com/N0nameleft/Problem-Hub.git
     This should spin up the Next.js server as well as the Django server.
 
 - As of 05/09/23, I haven't written a script to perform migrations before running the django server. I'll do that later, else, someone else can feel free to do that! ;P
+
+## Common Problems
+
+1. Building docker image on Mac devices
+    There is a known common error occurs every time building a new docker image on a Mac device, it may also occur even if the device has been used for other docker images. 
+    The easiest fix for this error will be:
+    ```rm  ~/.docker/config.json```
