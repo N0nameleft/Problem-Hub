@@ -4,8 +4,6 @@ import os
 import shutil
 import yaml
 from django.views import View
-from django.shortcuts import get_object_or_404, render
-from django.views.decorators.csrf import csrf_exempt
 from django.core.files import File
 from django.http import HttpResponse
 from django.core.paginator import Paginator
@@ -30,6 +28,17 @@ class ProblemsAPIView(APIView):
         serializer = ProblemRetrieveSerializer(problems, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class SearchProblemsView(APIView):
+    serializer_class = ProblemRetrieveSerializer
+
+    def get(self, request):
+        search_query = request.query_params.get("query", "")
+        # Stip " from the beginning and end  of the search query
+        search_query = search_query.strip('"')
+        queryset = Problem.objects.filter(problem_name__icontains=search_query)
+        serialized_data = self.serializer_class(queryset, many=True).data
+        return Response(serialized_data)
+    
 class FileUploadView(APIView):
     permission_classes = [IsAuthenticated]
     parser_class = (FileUploadParser,)

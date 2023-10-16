@@ -1,15 +1,36 @@
 import Navbar from '@/components/Navbar'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 import { format } from 'date-fns'
 import Searchbar from '../components/HomePageComponents/Searchbar'
+import axios from 'axios'
 
 function HomePage({ problems }) {
 	const [viewingProblem, setViewingProblem] = useState(null)
-
 	// State for Selected Problems
 	const [selectedProblems, setSelectedProblems] = useState([]) // Array of problem IDs
+	const [searchProblemQuery, setSearchProblemQuery] = useState('') // Search query for problems
+	const [fetchedProblems, setFetchedProblems] = useState([]) // Array of fetched problems
+
+	// useEffect(() => {
+	// 	// Fetch problems from backend
+	// 	const fetchProblems = async () => {
+	// 		try {
+	// 			const response = await axios.get(
+	// 				`${process.env.BACKEND_API_URL}/api/problems`,
+	// 			)
+	// 			setFetchedProblems(response.data)
+	// 		} catch (error) {
+	// 			console.error('Error fetching problems:', error)
+	// 		}
+	// 	}
+	// 	fetchProblems()
+	// }, [])
+
+	useEffect(() => {
+		setFetchedProblems(problems)
+	}, [])
 
 	const handleProblemClick = (problem) => {
 		setViewingProblem(problem)
@@ -43,14 +64,24 @@ function HomePage({ problems }) {
 		}
 	}
 
+	const handleSearchProblems = async (e) => {
+		e.preventDefault()
+		// push to the search problems page
+		const encodedQuery = encodeURIComponent(searchProblemQuery)
+		window.location.href = `/searchProblems/${encodedQuery}`
+	}
+
 	return (
 		<>
 			<Navbar />
 			<div className="h-screen bg-phDarkgrey px-48 pt-24">
 				<div className="no-scrollbar absolute bottom-0 left-0 right-0 top-0 mx-48 mt-24 h-auto overflow-scroll">
 					<div className="mb-2 flex items-center justify-between">
-						<h2 className="text-white">Find contest problems</h2>
-						<Searchbar />
+						<Searchbar
+							handleSearchProblems={handleSearchProblems}
+							searchProblemQuery={searchProblemQuery}
+							setSearchProblemQuery={setSearchProblemQuery}
+						/>
 						{/* Download button */}
 						{selectedProblems.length > 0 && (
 							<button
@@ -88,7 +119,7 @@ function HomePage({ problems }) {
 									</tr>
 								</thead>
 								<tbody>
-									{problems.map((problem) => (
+									{fetchedProblems.map((problem) => (
 										<tr
 											key={problem.problem_id}
 											className="h-9 bg-phDarkgrey align-bottom hover:bg-phDarkergrey"
