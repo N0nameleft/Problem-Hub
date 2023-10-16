@@ -62,6 +62,7 @@ git clone https://github.com/N0nameleft/Problem-Hub.git
   - **DJANGO_SUPERUSER_USERNAME**: The username of the superuser. For example: `admin`
   - **DJANGO_SUPERUSER_PASSWORD**: The password of the superuser. For example: `admin`
   - **DJANGO_SUPERUSER_EMAIL**: The email of the superuser. For example: `admin@admin.com`
+  - **FRONTEND_HOST**: The hostname of the Fronend server. For example: `localhost`
 
 - Note: There should be sample .env files in both folders, rename them to `.env` or make your own.
 
