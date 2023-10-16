@@ -27,9 +27,16 @@ class ProblemsAPIView(APIView):
         page_number = request.GET.get('page')
         items_per_page = 10
         problems = Problem.objects.select_related('user_id').all()
+        
         paginator = Paginator(problems, items_per_page)
-        page = paginator.get_page(page_number)
-        serializer = ProblemRetrieveSerializer(problems, many=True)
+
+        try:
+            page = paginator.page(page_number)
+        except EmptyPage:
+            raise Http404("Page not found")
+        
+        serializer = ProblemRetrieveSerializer(page, many=True)
+        
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class SearchProblemsView(APIView):
