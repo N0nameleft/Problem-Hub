@@ -1,101 +1,48 @@
 function ProblemFormatInfo() {
 	return (
-		<div className="mt-4">
-			<p>Here is the correct Problem Tools Format:</p>
-			{/* Add your detailed format explanation here */}
-			<p className="italic">
-				<ul>
-					<li>ZIP Root:</li>
-					<ul>
-						<li>
-							problem.yaml <i>(Must exist at the root)</i>
-						</li>
-
-						<li>
-							data/ <i>(Must exist)</i>
-						</li>
-						<ul>
-							<li>
-								sample/ <i>(Must exist)</i>
-							</li>
-							<ul>
-								<li>
-									.in &amp;.ans <i>(Paired files with same base name)</i>
-								</li>
-							</ul>
-							<li>
-								secret/ <i>(Must exist)</i>
-							</li>
-							<ul>
-								<li>
-									.in &amp;.ans <i>(Paired files with same base name)</i>
-								</li>
-							</ul>
-						</ul>
-
-						<li>
-							problem.pdf <i>(Either this)</i>
-						</li>
-						<li>OR</li>
-						<li>
-							problem_statement/ <i>(Or this folder must exist)</i>
-						</li>
-						<ul>
-							<li>
-								problem.en.tex <i>(Must exist if the folder exists)</i>
-							</li>
-						</ul>
-
-						<li>
-							solutions/ OR submissions/ <i>(At least one must exist)</i>
-						</li>
-						<ul>
-							<li>
-								accepted/ <i>(Must exist)</i>
-							</li>
-							<ul>
-								<li>
-									.cpp,.java, .py,.cc, .kt,.cs{' '}
-									<i>(At least one file with these extensions)</i>
-								</li>
-							</ul>
-							<li>
-								wrong_answer/ <i>(Optional folder)</i>
-							</li>
-							<ul>
-								<li>
-									.cpp,.java, .py,.cc, .kt,.cs{' '}
-									<i>
-										(If folder exists, at least one file with these extensions)
-									</i>
-								</li>
-							</ul>
-							<li>
-								time_limit_exceeded/ <i>(Optional folder)</i>
-							</li>
-							<ul>
-								<li>
-									.cpp,.java, .py,.cc, .kt,.cs{' '}
-									<i>
-										(If folder exists, at least one file with these extensions)
-									</i>
-								</li>
-							</ul>
-						</ul>
-
-						<li>
-							output_validators/ <i>(Optional folder)</i>
-						</li>
-						<ul>
-							<li>
-								.cpp &amp;.h{' '}
-								<i>(If folder exists, exactly one file with each extension)</i>
-							</li>
-						</ul>
-					</ul>
-				</ul>
-			</p>
-		</div>
+		<section className="flex justify-center rounded-lg bg-phDarkgrey p-4">
+			<div>
+				<p className="mb-2 text-center font-bold text-phLinen">
+					Here is the correct Problem Tools Format:
+				</p>
+				<pre className="text-phLinen">
+					{`ZIP Root:    # This is the file you upload (e.g. myproblems.zip)
+|
+|-- ZIP Problem A (example)
+|-- ZIP Problem B (example)
+|-- ZIP Problem C (example)
+|-- ZIP Problem format
+|-- problem.yaml   # Must exist at the root.
+|
+|-- data/          # Must exist.
+|   |
+|   |-- sample/           # Must exist.
+|   |   |-- .in &.ans  # Paired files with the same base name.
+|   |
+|   |-- secret/           # Must exist.
+|       |-- .in &.ans  # Paired files with the same base name.
+|
+|-- problem.pdf       # Either this,
+| OR
+|-- problem_statement/    # Or this folder must exist.
+|   |-- problem.en.tex    # Must exist if the folder exists.
+|
+|-- solutions/ OR submissions/     # At least one must exist.
+|   |
+|   |-- accepted/        # Must exist.
+|   |   |-- .cpp,.java, .py,.cc, .kt,.cs  # At least one file with these extensions.
+|   |
+|   |-- wrong_answer/    # Optional folder.
+|   |   |-- .cpp,.java, .py,.cc, .kt,.cs  # If the folder exists, at least one file with these extensions.
+|   |
+|   |-- time_limit_exceeded/  # Optional folder.
+|       |-- .cpp,.java, .py,.cc, .kt,.cs  # If the folder exists, at least one file with these extensions.
+|
+|-- output_validators/  # Optional folder.
+|-- .cpp &.h     # If the folder exists, exactly one file with each extension.`}
+				</pre>
+			</div>
+		</section>
 	)
 }
 
