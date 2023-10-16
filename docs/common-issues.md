@@ -25,3 +25,33 @@ and how to fix them.
   - If you're not on the correct branch, run `git checkout <branch-name>` to switch to the correct branch.
 
 - Run `docker compose up --build` to rebuild the image with the latest code.
+
+## 3. Permission denied while trying to connect to the docker daemon socket...
+
+### Issue
+
+- This one may arise when you run `docker compose up` or any other docker command.
+
+### Fix
+
+- To mitigate this, you need to:
+  
+  a. Add your user to the 'docker' group:
+  - `sudo usermod -aG docker $USER`
+
+  b. Run `newgrp docker` to refresh the permissions i nthe current session
+  
+  c. Modify Docker's daemon configuration. Create a daemon.json file if it doesn't already exist:
+  - `sudo mkdir -p /etc/docker`
+  - `sudo touch /etc/docker/daemon.json`
+  
+  d. Add the following contents to the file (`nano /etc/docker/daemon.json`):
+  
+  ```json
+  {
+    "group": "docker"
+  }
+  ```
+
+  e. Restart Docker:
+  - `sudo systemctl restart docker`

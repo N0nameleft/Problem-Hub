@@ -4,11 +4,12 @@ services:
     container_name: problem-hub-frontend
     build:
       context: ./client
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "3000:3000"
     volumes:
+      # File syncing
       - ./client:/client
       - /client/node_modules
       - /client/.next
@@ -21,7 +22,7 @@ services:
     container_name: problem-hub-backend
     build:
       context: ./server
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
