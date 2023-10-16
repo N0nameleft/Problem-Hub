@@ -22,17 +22,42 @@ from django.utils import timezone
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from .problems_utils import *
-
+from rest_framework.pagination import PageNumberPagination
 
 class ProblemsAPIView(APIView):
     def get(self, request, *args, **kwargs):
         page_number = request.GET.get('page')
         items_per_page = 10
         problems = Problem.objects.select_related('user_id').all()
+        
+        # Use Django's paginator
         paginator = Paginator(problems, items_per_page)
         page = paginator.get_page(page_number)
-        serializer = ProblemRetrieveSerializer(problems, many=True)
+
+        # Pass the current page's objects to the serializer
+        serializer = ProblemRetrieveSerializer(page.object_list, many=True)
+        
+        # adding pagination metadata to the response
+
+        # return Response({
+        #     'count': paginator.count,
+        #     'next': page.next_page_number() if page.has_next() else None,
+        #     'previous': page.previous_page_number() if page.has_previous() else None,
+        #     'results': serializer.data
+        # }, status=status.HTTP_200_OK)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# class ProblemsAPIView(APIView):
+#     def get(self, request, *args, **kwargs):
+#         page_number = request.GET.get('page')
+#         items_per_page = 10
+#         problems = Problem.objects.select_related('user_id').all()
+
+#         paginator = Paginator(problems, items_per_page)
+#         page = paginator.get_page(page_number)
+#         serializer = ProblemRetrieveSerializer(problems, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class FileUploadView(APIView):
     permission_classes = [IsAuthenticated]
