@@ -74,17 +74,6 @@ const Login = () => {
 									required
 								/>
 							</div>
-							{/* <div className="mb-4 flex items-center justify-center">
-								<input
-									type="checkbox"
-									id="remember"
-									name="remember"
-									className="mr-2"
-								/>
-								<label className="text-phLinen" htmlFor="remember">
-									Remember me
-								</label>
-							</div> */}
 							<div className="mb-4 flex items-center justify-center">
 								<button
 									className="cursor-pointer rounded-lg bg-phDarkgrey px-4 py-2 text-phLinen hover:bg-gray-600"

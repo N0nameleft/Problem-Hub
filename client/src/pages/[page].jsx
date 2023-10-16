@@ -12,21 +12,6 @@ function HomePageWithCount({ problems, pagination }) {
 	const [searchProblemQuery, setSearchProblemQuery] = useState('') // Search query for problems
 	const [fetchedProblems, setFetchedProblems] = useState([]) // Array of fetched problems
 
-	// useEffect(() => {
-	// 	// Fetch problems from backend
-	// 	const fetchProblems = async () => {
-	// 		try {
-	// 			const response = await axios.get(
-	// 				`${process.env.BACKEND_API_URL}/api/problems`,
-	// 			)
-	// 			setFetchedProblems(response.data)
-	// 		} catch (error) {
-	// 			console.error('Error fetching problems:', error)
-	// 		}
-	// 	}
-	// 	fetchProblems()
-	// }, [])
-
 	useEffect(() => {
 		setFetchedProblems(problems)
 	}, [])
