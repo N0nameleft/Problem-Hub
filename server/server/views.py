@@ -69,9 +69,6 @@ class FileUploadView(APIView):
                                 if 'problem_statement/problem.en.tex' in filenames:
                                     with zip_ref.open('problem_statement/problem.en.tex') as problem_tex:
                                         problem_data = problem_tex.read().decode('utf-8')
-                    
-
-
                                         # adding ini file to problem zip
 
                                         # default value for ini file:
@@ -79,17 +76,17 @@ class FileUploadView(APIView):
                                         iniContent = create_domjudge_ini(problem_name)
                                         
                                         temp_dir = "temp_unzipped_directory"
-                                        with zipfile.ZipFile(os.path.join(root, filename), 'r') as zip_ref:
-                                            zip_ref.extractall(temp_dir)
+                                        with zipfile.ZipFile(os.path.join(root, filename), 'r') as zip_temp:
+                                            zip_temp.extractall(temp_dir)
 
                                         ini_file_path, ini_file_name = save_domjudge_ini_to_file(problem_name, iniContent)  
-                                        
+
                                         shutil.copy(ini_file_path, os.path.join(temp_dir, ini_file_name))
                                         
-                                        with zipfile.ZipFile(os.path.join(root, filename), 'w') as zip_ref:
+                                        with zipfile.ZipFile(os.path.join(root, filename), 'w') as zip_temp:
                                             for foldername, subfolders, filenames in os.walk(temp_dir):
                                                 for file in filenames:
-                                                    zip_ref.write(os.path.join(foldername, file), os.path.relpath(os.path.join(foldername, file), temp_dir))
+                                                    zip_temp.write(os.path.join(foldername, file), os.path.relpath(os.path.join(foldername, file), temp_dir))
 
                                         # Removing the temporary directory 
                                         shutil.rmtree(temp_dir)
@@ -105,14 +102,10 @@ class FileUploadView(APIView):
                                         file_serializer = ProblemCreateSerializer(
                                             data=data)
                                         
-                                        
-                                       
                                         if file_serializer.is_valid():
                                             zip_ref.close()
                                             file_serializer.save()
                                             uploaded_problems.append(problem_name)
-
-                                            
 
                                         else:
                                             main_zip.close()
