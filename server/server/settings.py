@@ -72,8 +72,9 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Replace with your frontend's URL
+    'http://localhost:3000' # Replace with your frontend's url
 ]
 
 ROOT_URLCONF = 'server.urls'

@@ -81,6 +81,8 @@ git clone https://github.com/N0nameleft/Problem-Hub.git
 
 1. Set up the environment variables. See [Environment variables](#environment-variables) for more details.
 
+	- ALSO: Add the frontend's url to CORS\_ALLOWED\_ORIGINS in `server/server/settings.py` file. 
+
 2. Run the Django server: (Docs: [server/README.md](server/README.md))
 
     ```bash
@@ -146,6 +148,9 @@ git clone https://github.com/N0nameleft/Problem-Hub.git
 - Again, make sure you have docker engine and docker-compose installed. There are instructions available in [docs/docker-installation.md](docs/docker-installation.md).
 
 - Check the [Environment variables](#environment-variables) section to see what environment variables you need to set.
+
+        - ALSO: Add the frontend's url to CORS\_ALLOWED\_ORIGINS in `server/server/settings.py` file.
+
 
 - Run the command:
 
