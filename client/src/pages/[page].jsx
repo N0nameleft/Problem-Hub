@@ -4,7 +4,6 @@ import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 import { format } from 'date-fns'
 import Searchbar from '../components/HomePageComponents/Searchbar'
-import axios from 'axios'
 
 function HomePageWithCount({ problems, pagination }) {
 	const [viewingProblem, setViewingProblem] = useState(null)
@@ -198,6 +197,7 @@ export async function getServerSideProps({ params }) {
 	const page = params.page || 1 // Default to page 1 if no page number is provided
 
 	// axios logic
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const axios = require('axios')
 	try {
 		const response = await axios.get(

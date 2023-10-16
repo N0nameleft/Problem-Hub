@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the app in development mode
-CMD ["npm", "run", "dev"]
+CMD ["/bin/sh", "/client/scripts/entrypoint.sh"]

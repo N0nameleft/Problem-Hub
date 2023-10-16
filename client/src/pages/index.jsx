@@ -4,7 +4,6 @@ import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 import { format } from 'date-fns'
 import Searchbar from '../components/HomePageComponents/Searchbar'
-import axios from 'axios'
 
 function HomePage({ problems }) {
 	const [viewingProblem, setViewingProblem] = useState(null)
@@ -12,21 +11,6 @@ function HomePage({ problems }) {
 	const [selectedProblems, setSelectedProblems] = useState([]) // Array of problem IDs
 	const [searchProblemQuery, setSearchProblemQuery] = useState('') // Search query for problems
 	const [fetchedProblems, setFetchedProblems] = useState([]) // Array of fetched problems
-
-	// useEffect(() => {
-	// 	// Fetch problems from backend
-	// 	const fetchProblems = async () => {
-	// 		try {
-	// 			const response = await axios.get(
-	// 				`${process.env.BACKEND_API_URL}/api/problems`,
-	// 			)
-	// 			setFetchedProblems(response.data)
-	// 		} catch (error) {
-	// 			console.error('Error fetching problems:', error)
-	// 		}
-	// 	}
-	// 	fetchProblems()
-	// }, [])
 
 	useEffect(() => {
 		setFetchedProblems(problems)
@@ -186,6 +170,7 @@ function HomePage({ problems }) {
 
 export async function getServerSideProps() {
 	// axios logic
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const axios = require('axios')
 	const res = await axios.get(
 		`${process.env.BACKEND_SERVERSIDE_API_URL}/api/problems`,

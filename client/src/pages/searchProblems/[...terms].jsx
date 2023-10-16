@@ -14,9 +14,8 @@ function SearchProblemsPage({ results }) {
 	const [fetchedProblems, setFetchedProblems] = useState([]) // Array of fetched problems
 
 	useEffect(() => {
-		console.log(results)
 		setFetchedProblems(results)
-	}, [])
+	}, [results])
 
 	const handleProblemClick = (problem) => {
 		setViewingProblem(problem)
@@ -35,10 +34,6 @@ function SearchProblemsPage({ results }) {
 	const handleDownload = () => {
 		// Implement the download logic here
 		console.log('Downloading selected problems:', selectedProblems)
-		let chosenProblems = fetchedProblems.filter((problem) =>
-			selectedProblems.includes(problem.problem_id),
-		)
-
 		if (selectedProblems.length > 0) {
 			let downloadUrl = `${
 				process.env.BACKEND_API_URL

@@ -12,7 +12,9 @@
     - [Environment variables](#environment-variables)
     - [Running the Development environment using Docker](#running-the-development-environment-using-docker)
     - [Running the development environment manually](#running-the-development-environment-manually)
+  - [Running the production environment](#running-the-production-environment)
   - [Common issues](#common-issues)
+  - [Common Problems](#common-problems)
 
 ## Tech stack
 
@@ -137,6 +139,19 @@ git clone https://github.com/N0nameleft/Problem-Hub.git
         ```bash
         npm run start
         ```
+
+## Running the production environment
+
+- Again, make sure you have docker engine and docker-compose installed. There are instructions available in [docs/docker-installation.md](docs/docker-installation.md).
+
+- Check the [Environment variables](#environment-variables) section to see what environment variables you need to set.
+
+- Run the command:
+
+    ```sudo docker compose -f docker-compose.prod.yml up --build```
+
+    This should spin up the Next.js server as well as the Django server.
+
 ## Common issues
 
 Open [docs/common-issues.md](docs/common-issues.md) to find out common issues and how to fix them. If you encounter any issues, please check that document.

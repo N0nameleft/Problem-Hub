@@ -24,7 +24,7 @@ const Login = () => {
 					password: password,
 				},
 			)
-			const { access, refresh } = response.data
+			const { access } = response.data
 			const maxAge = 60 * 60 * 24 * 7 // 1 week
 			Cookies.set('accessToken', access, { expires: maxAge })
 			Cookies.set('username', username, { expires: maxAge })

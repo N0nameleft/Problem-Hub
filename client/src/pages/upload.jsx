@@ -70,10 +70,6 @@ const Upload = () => {
 		}
 	}
 
-	const handleOptionChange = (e) => {
-		setSelectedOption(e.target.value)
-	}
-
 	const toggleProblemFormat = () => {
 		setShowProblemFormat(!showProblemFormat)
 	}
