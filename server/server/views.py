@@ -76,12 +76,15 @@ class FileUploadView(APIView):
                                         iniContent = create_domjudge_ini(problem_name)
                                         
                                         temp_dir = "temp_unzipped_directory"
+                                        if not os.path.exists(temp_dir):
+                                            os.makedirs(temp_dir)
+
                                         with zipfile.ZipFile(os.path.join(root, filename), 'r') as zip_temp:
                                             zip_temp.extractall(temp_dir)
 
                                         ini_file_path, ini_file_name = save_domjudge_ini_to_file(problem_name, iniContent)  
 
-                                        shutil.copy(ini_file_path, os.path.join(temp_dir, ini_file_name))
+                                        shutil.copy(ini_file_path, os.path.join(temp_dir, filename[:-4] + '/' + ini_file_name))
                                         
                                         with zipfile.ZipFile(os.path.join(root, filename), 'w') as zip_temp:
                                             for foldername, subfolders, filenames in os.walk(temp_dir):
