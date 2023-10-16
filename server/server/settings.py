@@ -13,10 +13,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from datetime import timedelta
 import os
 from pathlib import Path
-import os
-
-NODE_ENV = os.environ.get('NODE_ENV', 'development')
-FRONTEND_HOST = os.environ.get('BACKEND_HOST', 'localhost')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,12 +26,12 @@ SECRET_KEY = 'django-insecure-d%i+q&r3-pq=kdtj7vgu2y0vy-wp#++ic6lyh=w!9=zi+p1905
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-if NODE_ENV == 'production':
+if os.environ.get('NODE_ENV') == 'production':
     DEBUG = False
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['backend', '127.0.0.1', FRONTEND_HOST]
+ALLOWED_HOSTS = ['backend', '127.0.0.1', os.environ.get('FRONTEND_HOST')]
 
 
 # Application definition
@@ -76,8 +72,9 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Replace with your frontend's URL
+    'http://localhost:3000' # Replace with your frontend's url
 ]
 
 ROOT_URLCONF = 'server.urls'

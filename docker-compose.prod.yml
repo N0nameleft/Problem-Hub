@@ -1,6 +1,8 @@
 version: '3'
 services:
   frontend:
+    env_file:
+      - ./client/.env
     container_name: problem-hub-frontend
     build:
       context: ./client
@@ -19,8 +21,12 @@ services:
       - backend
 
   backend:
+    env_file:
+      - ./server/.env
     restart: unless-stopped
     container_name: problem-hub-backend
+    environment:
+      - NODE_ENV=production
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -28,5 +34,3 @@ services:
       - "8000:8000"
     volumes:
       - ./server:/server
-    environment:
-      - DEBUG=True
