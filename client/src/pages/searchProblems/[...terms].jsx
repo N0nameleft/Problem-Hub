@@ -3,33 +3,19 @@ import { useEffect, useState } from 'react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 import { format } from 'date-fns'
-import Searchbar from '../components/HomePageComponents/Searchbar'
+import Searchbar from '@/components/HomePageComponents/Searchbar'
 import axios from 'axios'
 
-function HomePage({ problems }) {
+function SearchProblemsPage({ results }) {
 	const [viewingProblem, setViewingProblem] = useState(null)
 	// State for Selected Problems
 	const [selectedProblems, setSelectedProblems] = useState([]) // Array of problem IDs
 	const [searchProblemQuery, setSearchProblemQuery] = useState('') // Search query for problems
 	const [fetchedProblems, setFetchedProblems] = useState([]) // Array of fetched problems
 
-	// useEffect(() => {
-	// 	// Fetch problems from backend
-	// 	const fetchProblems = async () => {
-	// 		try {
-	// 			const response = await axios.get(
-	// 				`${process.env.BACKEND_API_URL}/api/problems`,
-	// 			)
-	// 			setFetchedProblems(response.data)
-	// 		} catch (error) {
-	// 			console.error('Error fetching problems:', error)
-	// 		}
-	// 	}
-	// 	fetchProblems()
-	// }, [])
-
 	useEffect(() => {
-		setFetchedProblems(problems)
+		console.log(results)
+		setFetchedProblems(results)
 	}, [])
 
 	const handleProblemClick = (problem) => {
@@ -70,7 +56,6 @@ function HomePage({ problems }) {
 		const encodedQuery = encodeURIComponent(searchProblemQuery)
 		window.location.href = `/searchProblems/${encodedQuery}`
 	}
-
 	return (
 		<>
 			<Navbar />
@@ -167,21 +152,31 @@ function HomePage({ problems }) {
 	)
 }
 
-export async function getServerSideProps() {
-	// axios logic
-	const axios = require('axios')
-	const res = await axios.get(
-		`${process.env.BACKEND_SERVERSIDE_API_URL}/api/problems`,
-	)
-
-	const problems = res.data.map((problem) => ({
-		...problem,
-		date_added: format(new Date(problem.date_added), 'dd-MM-yyyy'),
-	}))
-	return {
-		props: {
-			problems,
-		},
+export async function getServerSideProps({ params }) {
+	// Join the search terms into a single query string
+	const query = params.terms.join(',')
+	console.log('Query:', query)
+	const encodedQuery = encodeURIComponent(query)
+	console.log(query)
+	// get problems
+	try {
+		const response = await axios.get(
+			`${process.env.BACKEND_SERVERSIDE_API_URL}/api/searchproblems?query=${encodedQuery}`,
+		)
+		const results = response.data
+		return {
+			props: {
+				results,
+			},
+		}
+	} catch (error) {
+		console.error('Error searching problems:', error)
+		return {
+			props: {
+				results: [],
+			},
+		}
 	}
 }
-export default HomePage
+
+export default SearchProblemsPage

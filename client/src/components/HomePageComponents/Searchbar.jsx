@@ -1,21 +1,26 @@
 import React from 'react'
 
-const Searchbar = () => {
+const Searchbar = ({
+	handleSearchProblems,
+	searchProblemQuery,
+	setSearchProblemQuery,
+}) => {
 	return (
-		<div className="flex items-center p-2">
+		<form onSubmit={handleSearchProblems} className="flex items-center p-2">
 			<input
 				type="text"
-				id="search"
-				className="flex-grow rounded-lg px-4 py-2 text-gray-800 focus:outline-none"
+				value={searchProblemQuery}
+				onChange={(e) => setSearchProblemQuery(e.target.value)}
+				className="flex-grow rounded-lg bg-phDarkergrey px-4 py-2 text-phLinen focus:outline-none"
 				placeholder="Search for problems"
 			/>
 			<button
-				id="search-button"
-				className="ml-2 rounded-lg bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+				type="submit"
+				className="ml-2 rounded-lg bg-phGreen px-4 py-2 text-white hover:bg-green-600"
 			>
 				Search
 			</button>
-		</div>
+		</form>
 	)
 }
 
