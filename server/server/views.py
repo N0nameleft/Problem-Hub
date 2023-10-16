@@ -3,6 +3,7 @@ import tempfile
 import os
 import shutil
 import yaml
+from io import BytesIO
 from django.views import View
 from django.core.files import File
 from django.http import HttpResponse
@@ -16,16 +17,12 @@ from colorama import Fore, Style
 from server.serializers import ProblemRetrieveSerializer, ProblemCreateSerializer
 from .Problemformatvalidation import validate_zip_structure
 from .models import Problem
-from django.utils import timezone
-from django.core.files.base import ContentFile
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from .problems_utils import *
-from rest_framework.pagination import PageNumberPagination
 
 class ProblemsAPIView(APIView):
     def get(self, request, *args, **kwargs):
         page_number = request.GET.get('page')
-        items_per_page = 10
+        items_per_page = 20
         problems = Problem.objects.select_related('user_id').all()
         
         # Use Django's paginator
@@ -37,13 +34,13 @@ class ProblemsAPIView(APIView):
         
         # adding pagination metadata to the response
 
-        # return Response({
-        #     'count': paginator.count,
-        #     'next': page.next_page_number() if page.has_next() else None,
-        #     'previous': page.previous_page_number() if page.has_previous() else None,
-        #     'results': serializer.data
-        # }, status=status.HTTP_200_OK)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({
+            'count': paginator.count,
+            'next': page.next_page_number() if page.has_next() else None,
+            'previous': page.previous_page_number() if page.has_previous() else None,
+            'results': serializer.data
+        }, status=status.HTTP_200_OK)
+        # return Response(serializer.data, status=status.HTTP_200_OK)
 
 class SearchProblemsView(APIView):
     serializer_class = ProblemRetrieveSerializer
@@ -82,7 +79,7 @@ class FileUploadView(APIView):
                         return Response({"error": f"Problem File Structure Error: File {filename} failed validation: {message}"}, status=status.HTTP_400_BAD_REQUEST)
                 for filename in files:
                     # retrieve name of the problem this problem zip file
-                    with zipfile.ZipFile(os.path.join(root, filename), 'r') as zip_ref:
+                    with zipfile.ZipFile(os.path.join(root, filename), 'a') as zip_ref:
                         filenames = zip_ref.namelist()
                         if 'problem.yaml' in filenames:
                             with zip_ref.open('problem.yaml') as problem_yaml:
@@ -91,34 +88,15 @@ class FileUploadView(APIView):
                                 if 'problem_statement/problem.en.tex' in filenames:
                                     with zip_ref.open('problem_statement/problem.en.tex') as problem_tex:
                                         problem_data = problem_tex.read().decode('utf-8')
+
                                         # adding ini file to problem zip
-
-                                        # default value for ini file:
-                                            # allow_submit=1, allow_judge=1, timelimit=2, special_run=1, special_compare=2, points=10, color="#FF5733"
+                                        # Create BytesIO object for iniContent
                                         iniContent = create_domjudge_ini(problem_name)
-                                        
-                                        temp_dir = "temp_unzipped_directory"
-                                        if not os.path.exists(temp_dir):
-                                            os.makedirs(temp_dir)
+                                        ini_file_name = f"{problem_name}.ini"
+                                        ini_bytesio = BytesIO()
+                                        ini_bytesio.write(iniContent.encode('utf-8'))
+                                        zip_ref.writestr(ini_file_name, ini_bytesio.getvalue())
 
-                                        with zipfile.ZipFile(os.path.join(root, filename), 'r') as zip_temp:
-                                            zip_temp.extractall(temp_dir)
-
-                                        ini_file_path, ini_file_name = save_domjudge_ini_to_file(problem_name, iniContent)  
-
-                                        shutil.copy(ini_file_path, os.path.join(temp_dir, filename[:-4] + '/' + ini_file_name))
-                                        
-                                        with zipfile.ZipFile(os.path.join(root, filename), 'w') as zip_temp:
-                                            for foldername, subfolders, filenames in os.walk(temp_dir):
-                                                for file in filenames:
-                                                    zip_temp.write(os.path.join(foldername, file), os.path.relpath(os.path.join(foldername, file), temp_dir))
-
-                                        # Removing the temporary directory 
-                                        shutil.rmtree(temp_dir)
-                                        shutil.rmtree(ini_file_path)
-   
-
-                                        # save the zipfile to file storage
                                         zip_ref_using_open = open(os.path.join(root, filename), 'rb')
                                         data = {'problem_name': problem_name, 
                                                 'problem_data': problem_data, 

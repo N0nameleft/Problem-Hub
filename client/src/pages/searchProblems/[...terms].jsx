@@ -35,10 +35,9 @@ function SearchProblemsPage({ results }) {
 	const handleDownload = () => {
 		// Implement the download logic here
 		console.log('Downloading selected problems:', selectedProblems)
-		let chosenProblems = problems.filter((problem) =>
+		let chosenProblems = fetchedProblems.filter((problem) =>
 			selectedProblems.includes(problem.problem_id),
 		)
-		console.log('Chosen problems:', chosenProblems)
 
 		if (selectedProblems.length > 0) {
 			let downloadUrl = `${
@@ -163,7 +162,10 @@ export async function getServerSideProps({ params }) {
 		const response = await axios.get(
 			`${process.env.BACKEND_SERVERSIDE_API_URL}/api/searchproblems?query=${encodedQuery}`,
 		)
-		const results = response.data
+		const results = response.data.map((problem) => ({
+			...problem,
+			date_added: format(new Date(problem.date_added), 'dd/MM/yyyy'),
+		}))
 		return {
 			props: {
 				results,

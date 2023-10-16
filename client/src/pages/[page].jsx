@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import Searchbar from '../components/HomePageComponents/Searchbar'
 import axios from 'axios'
 
-function HomePage({ problems }) {
+function HomePageWithCount({ problems, pagination }) {
 	const [viewingProblem, setViewingProblem] = useState(null)
 	// State for Selected Problems
 	const [selectedProblems, setSelectedProblems] = useState([]) // Array of problem IDs
@@ -71,9 +71,14 @@ function HomePage({ problems }) {
 		window.location.href = `/searchProblems/${encodedQuery}`
 	}
 
-	const takeToNextPage = () => {
-		// push to the next page
-		window.location.href = `/2`
+	const handlePreviousPage = () => {
+		// push user to previous page
+		window.location.href = `/${pagination.previous_page_number}`
+	}
+
+	const handleNextPage = () => {
+		// push user to next page
+		window.location.href = `/${pagination.next_page_number}`
 	}
 
 	return (
@@ -99,12 +104,17 @@ function HomePage({ problems }) {
 					</div>
 					{/* Buttons saying "next" and "previous" */}
 					<div className="flex justify-between">
-						<button className="w-32 rounded-lg bg-phDarkergrey px-4 py-2 text-white shadow-md hover:bg-gray-600">
+						<button
+							disabled={!pagination.previous_page_number}
+							onClick={() => handlePreviousPage()}
+							className="w-32 rounded-lg bg-phDarkergrey px-4 py-2 text-white shadow-md hover:bg-gray-600 disabled:bg-gray-700"
+						>
 							Previous
 						</button>
 						<button
-							onClick={() => takeToNextPage()}
-							className="w-32 rounded-lg bg-phDarkergrey px-4 py-2 text-white shadow-md hover:bg-gray-600"
+							disabled={!pagination.next_page_number}
+							onClick={() => handleNextPage()}
+							className="w-32 rounded-lg bg-phDarkergrey px-4 py-2 text-white shadow-md hover:bg-gray-600 disabled:bg-gray-700"
 						>
 							Next
 						</button>
@@ -184,21 +194,44 @@ function HomePage({ problems }) {
 	)
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ params }) {
+	const page = params.page || 1 // Default to page 1 if no page number is provided
+
 	// axios logic
 	const axios = require('axios')
-	const res = await axios.get(
-		`${process.env.BACKEND_SERVERSIDE_API_URL}/api/problems`,
-	)
+	try {
+		const response = await axios.get(
+			`${process.env.BACKEND_SERVERSIDE_API_URL}/api/problems/?page=${page}`,
+		)
 
-	const problems = res.data.results.map((problem) => ({
-		...problem,
-		date_added: format(new Date(problem.date_added), 'dd-MM-yyyy'),
-	}))
-	return {
-		props: {
-			problems,
-		},
+		const problems = response.data.results.map((problem) => ({
+			...problem,
+			date_added: format(new Date(problem.date_added), 'dd-MM-yyyy'),
+		}))
+
+		const nextPageNum = response.data.next
+		const previousPageNum = response.data.previous
+
+		return {
+			props: {
+				problems,
+				pagination: {
+					next_page_number: nextPageNum,
+					previous_page_number: previousPageNum,
+				},
+			},
+		}
+	} catch (error) {
+		console.error('Error fetching data:', error)
+		return {
+			props: {
+				problems: [],
+				pagination: {
+					next_page_number: null,
+					previous_page_number: null,
+				},
+			},
+		}
 	}
 }
-export default HomePage
+export default HomePageWithCount
