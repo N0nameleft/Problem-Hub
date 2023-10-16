@@ -122,9 +122,7 @@ function HomePage({ problems }) {
 													</a>
 												</div>
 											</td>
-											<td>
-												{format(new Date(problem.date_added), 'dd-MM-yyyy')}
-											</td>
+											<td>{problem.date_added}</td>
 											<td>{problem.uploaded_by}</td>
 										</tr>
 									))}
@@ -139,16 +137,16 @@ function HomePage({ problems }) {
 }
 
 export async function getServerSideProps() {
-	// Fetch the JSON data from the server
-	// const res = await fetch('http://localhost:3000/api/mockproblems') // Replace with the actual URL of your API route
-
 	// axios logic
 	const axios = require('axios')
 	const res = await axios.get(
 		`${process.env.BACKEND_SERVERSIDE_API_URL}/api/problems`,
 	)
 
-	const problems = res.data
+	const problems = res.data.map((problem) => ({
+		...problem,
+		date_added: format(new Date(problem.date_added), 'dd-MM-yyyy'),
+	}))
 	return {
 		props: {
 			problems,

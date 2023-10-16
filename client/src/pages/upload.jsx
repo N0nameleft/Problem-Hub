@@ -20,7 +20,9 @@ const Upload = () => {
 	const router = useRouter()
 
 	useEffect(() => {
-		if (!Cookies.get('accessToken')) router.push('/signin?alertCompulsory=true')
+		if (!Cookies.get('accessToken')) {
+			router.push('/signin?alertCompulsory=true')
+		}
 	}, [])
 
 	const handleFileChange = (e) => {
@@ -80,7 +82,7 @@ const Upload = () => {
 		<>
 			<Navbar />
 			<div className="flex min-h-screen items-center justify-center bg-phDarkgrey">
-				<div className="w-full max-w-md">
+				<div className="mt-16 w-full max-w-md">
 					<div className="rounded-t-lg border-b-2 border-black bg-phGreen py-4 text-center  font-manjari text-2xl text-phLinen">
 						Upload a Contest Problem
 					</div>
@@ -133,8 +135,8 @@ const Upload = () => {
 								Click here to see the correct Problem Tools Format!
 							</a>
 						</p>
-						{showProblemFormat && <ProblemFormatInfo />}
 					</div>
+					{showProblemFormat && <ProblemFormatInfo />}
 				</div>
 			</div>
 		</>

@@ -1,8 +1,8 @@
 # Docker Installation 
 
-It's best that you follow the [Docker website](https://www.docker.com/get-started/) for latest instructions on how to install Docker for your OS. Here are the steps on how to install Docker Engine and Docker Compose for Mac, Linux, and Windows users:
+**It's best that you follow the [Docker website](https://www.docker.com/get-started/) for <u>latest instructions</u>** on how to install Docker for your OS. 
 
-Note: On Windows, you only need to get docker desktop, it includes docker-compose.
+For lazy folks, here are the steps on how to install Docker Engine and Docker Compose for Mac, Linux, and Windows users. (Updated on 16/10/2023)
 
 ## Mac
 
@@ -14,16 +14,29 @@ Note: On Windows, you only need to get docker desktop, it includes docker-compos
 
 ## Linux
 
-1. Update your package index:
+1. Set up Docker's Apt repository:
 
-    `sudo apt-get update`
-2. Install Docker Engine:
+    ```bash
+    # Add Docker's official GPG key:
+    sudo apt-get update
+    sudo apt-get install ca-certificates curl gnupg
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-    `sudo apt-get install docker-engine`
-3. Install Docker Compose:
+    # Add the repository to Apt sources:
+    echo \
+    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt-get update
+    ```
 
-    `sudo apt-get install docker-compose`
-4. To verify that Docker Engine and Docker Compose are installed correctly, open a terminal and run the following commands:
+2. Install Docker Packages:
+
+    `sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`
+
+3. To verify that Docker Engine and Docker Compose are installed correctly, open a terminal and run the following commands:
 
     `docker version`
 
