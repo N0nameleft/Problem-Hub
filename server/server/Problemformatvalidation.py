@@ -2,6 +2,7 @@ import os
 import zipfile
 
 def validate_zip_structure(zip_path):
+    
     if not zipfile.is_zipfile(zip_path):
         return False, f"Upload failure,{os.path.basename(zip_path)} is not a zip file"
 
@@ -11,6 +12,7 @@ def validate_zip_structure(zip_path):
         # Validate presence of problems.yaml
         if 'problem.yaml' not in filenames:
             return False, "Upload failure,'problem.yaml' not found in zip file"
+        
 
         # Validate data structure
         if 'data/' not in filenames:
@@ -97,3 +99,4 @@ def check_output_validators_structure(filenames):
             return False, "Upload failure, output_validators folder should have exactly one .cpp and one .h file. Please check."
 
     return True, ""
+
