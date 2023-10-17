@@ -161,10 +161,3 @@ git clone https://github.com/N0nameleft/Problem-Hub.git
 ## Common issues
 
 Open [docs/common-issues.md](docs/common-issues.md) to find out common issues and how to fix them. If you encounter any issues, please check that document.
-
-## Common Problems
-
-1. Building docker image on Mac devices
-    There is a known common error occurs every time building a new docker image on a Mac device, it may also occur even if the device has been used for other docker images. 
-    The easiest fix for this error will be:
-    ```rm  ~/.docker/config.json```
