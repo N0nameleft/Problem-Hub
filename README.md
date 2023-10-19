@@ -14,7 +14,6 @@
     - [Running the development environment manually](#running-the-development-environment-manually)
   - [Running the production environment](#running-the-production-environment)
   - [Common issues](#common-issues)
-  - [Common Problems](#common-problems)
 
 ## Tech stack
 
@@ -75,7 +74,6 @@ git clone https://github.com/N0nameleft/Problem-Hub.git
 
     This should spin up the Next.js server as well as the Django server.
 
-- As of 05/09/23, I haven't written a script to perform migrations before running the django server. I'll do that later, else, someone else can feel free to do that! ;P
 
 ### Running the development environment manually
 

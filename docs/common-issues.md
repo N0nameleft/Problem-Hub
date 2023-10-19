@@ -55,3 +55,13 @@ and how to fix them.
 
   e. Restart Docker:
   - `sudo systemctl restart docker`
+
+## 4. Uploading error when using MacOs
+
+### Issue
+
+When uploading a zip file that is create on MacOs, a *._.DS_Store* file is included with the file, which WILL show an error as the program does not recognise this type of file.
+
+### Fix
+
+Delete the *._.DS_Store* file manually on your machine before uploading.
