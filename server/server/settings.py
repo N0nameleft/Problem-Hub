@@ -31,7 +31,7 @@ if os.environ.get('NODE_ENV') == 'production':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['backend', '127.0.0.1', os.environ.get('FRONTEND_HOST')]
+ALLOWED_HOSTS = ['backend', '127.0.0.1', 'localhost', os.environ.get('FRONTEND_HOST')]
 
 
 # Application definition

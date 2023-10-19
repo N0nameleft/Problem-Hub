@@ -1,20 +1,16 @@
-#!/bin/bash
+#!/bin/sh
 
-# Load environment variables from the .env file
-source .env
+# Set your desired superuser credentials here
+SUPERUSER_USERNAME="${DJANGO_SUPERUSER_USERNAME:-admin}"
+SUPERUSER_EMAIL="${DJANGO_SUPERUSER_EMAIL:-admin@example.com}"
+SUPERUSER_PASSWORD="${DJANGO_SUPERUSER_PASSWORD:-adminpassword}"
 
-# Run Django's createsuperuser management command
-/opt/venv/bin/python manage.py createsuperuser --noinput
+# Apply migrations
+python manage.py migrate
 
-# Set the superuser's credentials
-/opt/venv/bin/python manage.py shell <<EOF
-from django.contrib.auth.models import User
+# Create a superuser with the provided or default values
+python manage.py createsuperuser --noinput --username $SUPERUSER_USERNAME --email $SUPERUSER_EMAIL
+echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='$SUPERUSER_USERNAME').exists() or User.objects.create_superuser('$SUPERUSER_USERNAME', '$SUPERUSER_EMAIL', '$SUPERUSER_PASSWORD')" | python manage.py shell
 
-# Check if the superuser already exists
-if not User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists():
-    user = User.objects.create_superuser('$DJANGO_SUPERUSER_USERNAME', '$DJANGO_SUPERUSER_EMAIL', '$DJANGO_SUPERUSER_PASSWORD')
-    user.save()
-    print('Superuser created.')
-else:
-    print('Superuser already exists.')
-EOF
+exec "$@"
+
